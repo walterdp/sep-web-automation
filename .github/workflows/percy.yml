@@ -1,0 +1,73 @@
+name: Percy Visual Tests
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  visual:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Percy visual tests
+        run: npx percy exec -- npx playwright test tests/visual/ --project=chromium
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+      - name: Notify Slack on success
+        if: success()
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "*Percy Visual Tests Pasaron*",
+              "attachments": [
+                {
+                  "color": "good",
+                  "fields": [
+                    { "title": "Repositorio", "value": "${{ github.repository }}", "short": true },
+                    { "title": "Rama", "value": "${{ github.ref_name }}", "short": true },
+                    { "title": "Ejecutado por", "value": "${{ github.actor }}", "short": true },
+                    { "title": "Ver ejecución", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}", "short": false }
+                  ]
+                }
+              ]
+            }
+
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "*Percy Visual Tests Fallaron*",
+              "attachments": [
+                {
+                  "color": "danger",
+                  "fields": [
+                    { "title": "Repositorio", "value": "${{ github.repository }}", "short": true },
+                    { "title": "Rama", "value": "${{ github.ref_name }}", "short": true },
+                    { "title": "Ejecutado por", "value": "${{ github.actor }}", "short": true },
+                    { "title": "Commit", "value": "${{ github.sha }}", "short": false },
+                    { "title": "Ver ejecución", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}", "short": false }
+                  ]
+                }
+              ]
+            }
