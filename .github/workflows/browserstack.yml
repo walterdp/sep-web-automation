@@ -4,6 +4,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      test_file:
+        description: 'Test a ejecutar (ej: tests/cotizador.spec.js). Dejar vacío para correr todos.'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   browserstack:
@@ -28,7 +34,13 @@ jobs:
         run: npm ci
 
       - name: Run BrowserStack tests
-        run: npx browserstack-node-sdk playwright test
+        run: |
+          if [ -n "${{ github.event.inputs.test_file }}" ]; then
+            npx browserstack-node-sdk playwright test ${{ github.event.inputs.test_file }}
+          else
+            TEST_FILES=$(find tests -name "*.spec.js" -not -path "*/visual/*" 2>/dev/null | tr '\n' ' ')
+            npx browserstack-node-sdk playwright test $TEST_FILES
+          fi
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}

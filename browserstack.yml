@@ -12,7 +12,11 @@ platforms:
     browserName: safari
     browserVersion: latest
 
-testRunnerOptions: "tests/*.spec.js"
 
 buildName: SEP Web Automation
 projectName: sep-web-automation
+
+debug: true
+networkLogs: true
+consoleLogs: info
+browserstackLocal: false
