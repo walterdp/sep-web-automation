@@ -1,0 +1,44 @@
+{
+  "name": "sep-web-automation",
+  "version": "1.0.0",
+  "description": "Proyecto de automatizacion de pruebas E2E para la plataforma SEP, desarrollado con [Playwright](https://playwright.dev/) y JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test:headless": "playwright test",
+    "test:visual": "playwright test --headed",
+    "test:chrome:headless": "playwright test --project=chromium",
+    "test:firefox:headless": "playwright test --project=firefox",
+    "test:safari:headless": "playwright test --project=webkit",
+    "test:chrome:visual": "playwright test --project=chromium --headed",
+    "test:firefox:visual": "playwright test --project=firefox --headed",
+    "test:safari:visual": "playwright test --project=webkit --headed",
+    "test:ui:mode": "playwright test --ui",
+    "test:trace:viewer": "playwright test --trace on",
+    "test:report": "playwright show-report",
+    "test:generator": "playwright codegen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walterdp/sep-web-automation.git"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "e2e",
+    "testing",
+    "qa",
+    "javascript"
+  ],
+  "author": "Walter Renato Diaz Pineda",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/walterdp/sep-web-automation/issues"
+  },
+  "homepage": "https://github.com/walterdp/sep-web-automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.4",
+    "dotenv-cli": "^11.0.0"
+  }
+}
