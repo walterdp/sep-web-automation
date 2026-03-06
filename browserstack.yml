@@ -14,8 +14,5 @@ platforms:
 
 testRunnerOptions: "tests/*.spec.js"
 
-browserstackLocal: true
-browserstackLocalOptions:
-  forceLocal: true
 buildName: SEP Web Automation
 projectName: sep-web-automation

@@ -4,7 +4,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-
+    inputs:
+      test_file:
+        description: 'Test visual a ejecutar (ej: tests/visual/cotizador.visual.spec.js). Dejar vacío para correr todos.'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   visual:
@@ -35,7 +40,7 @@ jobs:
         run: |
           CHROMIUM_PATH=$(node -e "const { chromium } = require('playwright-core'); console.log(chromium.executablePath())")
           echo "Chromium path: $CHROMIUM_PATH"
-          PERCY_BROWSER_EXECUTABLE=$CHROMIUM_PATH npx percy exec -- npx playwright test tests/visual/ --project=chromium
+          PERCY_BROWSER_EXECUTABLE=$CHROMIUM_PATH npx percy exec -- npx playwright test ${{ github.event.inputs.test_file || 'tests/visual/' }} --project=chromium
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 

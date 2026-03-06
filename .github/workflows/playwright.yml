@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      test_file:
+        description: 'Test a ejecutar (ej: tests/cotizador.spec.js). Dejar vacío para correr todos.'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   test:
@@ -33,7 +39,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npx playwright test --project=chromium
+        run: npx playwright test ${{ github.event.inputs.test_file }} --project=chromium
         env:
           DEBUG: pw:api
 
