@@ -56,7 +56,7 @@ test.describe('Automatizacion del formulario  "Cotizador', () => {
 
     });
 
-  test('Validacion de que el campo monto solo acepta valores numericos', async () => {
+  test('Validacion de que el campo monto solo acepta valores numericoss', async () => {
     // Solo letras → campo debe quedar vacío
     await quoter.fillMonto(data.montoInputValidation.letras);
     expect(await quoter.getMontoValue()).toBe('');
