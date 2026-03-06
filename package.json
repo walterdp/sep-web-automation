@@ -15,7 +15,8 @@
     "test:ui:mode": "playwright test --ui",
     "test:trace:viewer": "playwright test --trace on",
     "test:report": "playwright show-report",
-    "test:generator": "playwright codegen"
+    "test:generator": "playwright codegen",
+    "test:percy": "dotenv -- percy exec -- playwright test tests/visual/"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,8 @@
   },
   "homepage": "https://github.com/walterdp/sep-web-automation#readme",
   "devDependencies": {
+    "@percy/cli": "^1.31.9",
+    "@percy/playwright": "^1.0.10",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.4",
     "dotenv-cli": "^11.0.0"
