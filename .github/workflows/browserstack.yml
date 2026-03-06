@@ -33,9 +33,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Verify URL accessibility from runner
-        run: |
-          curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" https://develop.d2wbsjn1hekdle.amplifyapp.com/send/quote
+      - name: Start BrowserStack Local Tunnel
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: start
+          local-logging-level: all-logs
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
       - name: Run BrowserStack tests
         run: |
@@ -45,6 +50,15 @@ jobs:
             TEST_FILES=$(find tests -name "*.spec.js" -not -path "*/visual/*" 2>/dev/null | tr '\n' ' ')
             npx browserstack-node-sdk playwright test $TEST_FILES
           fi
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+
+      - name: Stop BrowserStack Local Tunnel
+        if: always()
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: stop
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
