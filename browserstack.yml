@@ -7,18 +7,15 @@ platforms:
     osVersion: 11
     browserName: chrome
     browserVersion: latest
-  - os: OS X
-    osVersion: Ventura
-    browserName: safari
-    browserVersion: latest
 
+browserstackLocal: true
+acceptInsecureCerts: true
+debug: true
+networkLogs: true
+consoleLogs: info
 
 buildName: SEP Web Automation
 projectName: sep-web-automation
 
-debug: true
-networkLogs: true
-consoleLogs: info
-browserstackLocal: true
-browserstackLocalOptions:
-  forceLocal: true
+
+
