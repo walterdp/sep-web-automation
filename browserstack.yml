@@ -1,0 +1,21 @@
+userName: $BROWSERSTACK_USERNAME
+accessKey: $BROWSERSTACK_ACCESS_KEY
+
+framework: playwright
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: chrome
+    browserVersion: latest
+  - os: OS X
+    osVersion: Ventura
+    browserName: safari
+    browserVersion: latest
+
+testRunnerOptions: "tests/*.spec.js"
+
+browserstackLocal: true
+browserstackLocalOptions:
+  forceLocal: true
+buildName: SEP Web Automation
+projectName: sep-web-automation
