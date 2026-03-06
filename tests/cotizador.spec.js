@@ -77,7 +77,6 @@ test.describe('Automatizacion del formulario  "Cotizador', () => {
     await quoter.fillMonto(data.montoInputValidation.numericoDecimal);
     expect(await quoter.getMontoValue()).toBe(data.montoInputValidation.numericoDecimal);
 
-    await quoter.takeScreenshot('screenshots/cotizador-monto-solo-numeros.png');
   });
 
 });
