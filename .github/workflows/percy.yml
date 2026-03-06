@@ -16,6 +16,14 @@ jobs:
         with:
           node-version: 20
 
+      - name: Log environment info
+        run: |
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Triggered by: ${{ github.actor }}"
+
       - name: Install dependencies
         run: npm ci
 
@@ -23,7 +31,10 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Percy visual tests
-        run: npx percy exec -- npx playwright test tests/visual/ --project=chromium
+        run: |
+          CHROMIUM_PATH=$(node -e "const { chromium } = require('playwright-core'); console.log(chromium.executablePath())")
+          echo "Chromium path: $CHROMIUM_PATH"
+          PERCY_BROWSER_EXECUTABLE=$CHROMIUM_PATH npx percy exec -- npx playwright test tests/visual/ --project=chromium
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
