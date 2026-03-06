@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { CotizadorPage } from './pages/cotizador.page.js';
 import data from './data/cotizador.data.json' assert { type: 'json' };
 
@@ -56,5 +56,28 @@ test.describe('Automatizacion del formulario  "Cotizador', () => {
 
     });
 
+  test('Validacion de que el campo monto solo acepta valores numericoss', async () => {
+    // Solo letras → campo debe quedar vacío
+    await quoter.fillMonto(data.montoInputValidation.letras);
+    expect(await quoter.getMontoValue()).toBe('');
+
+    // Solo caracteres especiales → campo debe quedar vacío
+    await quoter.fillMonto(data.montoInputValidation.caracteresEspeciales);
+    expect(await quoter.getMontoValue()).toBe('');
+
+    // Mezcla alfanumérica → el campo filtra las letras y conserva solo los dígitos
+    await quoter.fillMonto(data.montoInputValidation.alfanumerico);
+    expect(await quoter.getMontoValue()).toBe(data.montoInputValidation.alfanumericoResultado);
+
+    // Número entero válido → debe aceptarse
+    await quoter.fillMonto(data.montoInputValidation.numericoEntero);
+    expect(await quoter.getMontoValue()).toBe(data.montoInputValidation.numericoEntero);
+
+    // Número decimal válido → debe aceptarse
+    await quoter.fillMonto(data.montoInputValidation.numericoDecimal);
+    expect(await quoter.getMontoValue()).toBe(data.montoInputValidation.numericoDecimal);
+
+    await quoter.takeScreenshot('screenshots/cotizador-monto-solo-numeros.png');
+  });
 
 });
