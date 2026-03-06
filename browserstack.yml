@@ -19,4 +19,6 @@ projectName: sep-web-automation
 debug: true
 networkLogs: true
 consoleLogs: info
-browserstackLocal: false
+browserstackLocal: true
+browserstackLocalOptions:
+  forceLocal: true
