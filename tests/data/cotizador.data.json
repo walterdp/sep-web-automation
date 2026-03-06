@@ -1,0 +1,25 @@
+{
+  "requiredFieldMessages": {
+    "paisDestino": "Prueba de automatizacion/walter",
+    "moneda": "Debes seleccionar una moneda de entrega",
+    "metodoEntrega": "Debes seleccionar un método de entrega",
+    "monto": "El monto es requerido"
+  },
+  "dropdowns": {
+    "paisDestino": "Enviar a Guatemala",
+    "moneda": "GTQ - Quetzal",
+    "metodoEntrega": "Ventanilla"
+  },
+  "modalAgente": {
+    "tasaReferencial": "Tasa Referencial",
+    "tipoCambio": "Tipo de cambio venta agente",
+    "totalACobrar": "Total a cobrar agente",
+    "telefono": "+502 2302-1303",
+    "email": "ayuda@redchapina.com"
+  },
+  "montoLimits": {
+    "valid": "4500",
+    "exceedsMax": "99999999999",
+    "exceedsMaxMessage": "El monto no puede exceder 10 dígitos"
+  }
+}
