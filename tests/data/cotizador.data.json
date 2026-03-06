@@ -17,6 +17,14 @@
     "telefono": "+502 2302-1303",
     "email": "ayuda@redchapina.com"
   },
+  "montoInputValidation": {
+    "letras": "abcdef",
+    "caracteresEspeciales": "!@#$%^&*()",
+    "alfanumerico": "abc123def",
+    "alfanumericoResultado": "123",
+    "numericoEntero": "4500",
+    "numericoDecimal": "45.50"
+  },
   "montoLimits": {
     "valid": "4500",
     "exceedsMax": "99999999999",

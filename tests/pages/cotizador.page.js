@@ -56,6 +56,10 @@ export class CotizadorPage {
     await this.montoInput.fill((value));
   }
 
+  async getMontoValue() {
+    return await this.montoInput.inputValue();
+  }
+
    async takeScreenshot(route) {
     await this.page.screenshot({ path: route, fullPage: true });
   }
