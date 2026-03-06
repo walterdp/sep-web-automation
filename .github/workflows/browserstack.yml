@@ -33,32 +33,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Start BrowserStack Local Tunnel
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: start
-          local-logging-level: all-logs
-        env:
-          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      - name: Verify BrowserStack config
+        run: |
+          test -f browserstack.yml && echo "browserstack.yml encontrado" || (echo "Falta browserstack.yml" && exit 1)
 
       - name: Run BrowserStack tests
+        shell: bash
         run: |
           if [ -n "${{ github.event.inputs.test_file }}" ]; then
-            npx browserstack-node-sdk playwright test ${{ github.event.inputs.test_file }}
+            npx browserstack-node-sdk playwright test "${{ github.event.inputs.test_file }}"
           else
-            TEST_FILES=$(find tests -name "*.spec.js" -not -path "*/visual/*" 2>/dev/null | tr '\n' ' ')
-            npx browserstack-node-sdk playwright test $TEST_FILES
+            npx browserstack-node-sdk playwright test tests
           fi
-        env:
-          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-
-      - name: Stop BrowserStack Local Tunnel
-        if: always()
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: stop
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
