@@ -1,13 +1,12 @@
-name: Percy Visual Tests
+name: BrowserStack Tests
 
 on:
   pull_request:
     branches: [main]
   workflow_dispatch:
 
-
 jobs:
-  visual:
+  browserstack:
     runs-on: self-hosted
 
     steps:
@@ -28,16 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Run Percy visual tests
-        run: |
-          CHROMIUM_PATH=$(node -e "const { chromium } = require('playwright-core'); console.log(chromium.executablePath())")
-          echo "Chromium path: $CHROMIUM_PATH"
-          PERCY_BROWSER_EXECUTABLE=$CHROMIUM_PATH npx percy exec -- npx playwright test tests/visual/ --project=chromium
+      - name: Run BrowserStack tests
+        run: npx browserstack-node-sdk playwright test
         env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
       - name: Notify Slack on success
         if: success()
@@ -47,7 +41,7 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "*Percy Visual Tests Pasaron*",
+              "text": "*BrowserStack Tests Pasaron*",
               "attachments": [
                 {
                   "color": "good",
@@ -69,7 +63,7 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "*Percy Visual Tests Fallaron*",
+              "text": "*BrowserStack Tests Fallaron*",
               "attachments": [
                 {
                   "color": "danger",
